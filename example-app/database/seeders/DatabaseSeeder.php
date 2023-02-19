@@ -1,9 +1,9 @@
-<?php
-
-namespace Database\Seeders;
+<?php namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+
+use App\Models\{Contact, Name, Persona};
 
 class DatabaseSeeder extends Seeder
 {
@@ -12,11 +12,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
+        $firstName = 'Wade';
+        $lastName = 'Penistone';
+        $email = 'john.doe@website.com';
+        $phone = '1234567890';
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        $contact = Contact::make( compact('email', 'phone'));
+        $names = collect([
+            Name::firstName($firstName), Name::lastName($lastName)
+        ]);
+
+        $persona = Persona::create();
+        $persona->contact()->save($contact);
+        $persona->names()->saveMany($names);
     }
 }
