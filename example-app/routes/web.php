@@ -16,3 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/contacts', [\App\Http\Controllers\ContactController::class, 'index']);
+
+Route::resource('personas', \App\Http\Controllers\PersonaController::class);
