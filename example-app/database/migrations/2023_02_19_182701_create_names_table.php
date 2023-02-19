@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('names', function (Blueprint $table) {
             $table->bigIncrements('id');
             // Relations
-            $table->integer('persona_id');
+            $table->string('persona_id');
             // Properties
             $table->string('context');
             $table->string('value');
