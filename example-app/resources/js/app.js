@@ -21,7 +21,9 @@ const app = createApp({});
 import ExampleComponent from './components/ExampleComponent.vue';
 import NameComponent from './components/name/Name.vue'
 import ContactComponent from './components/contact/Table.vue'
+import ContactFormComponent from './components/contact/Form.vue'
 app.component('contacts', ContactComponent)
+app.component('contact-form', ContactFormComponent)
 app.component('human-name', NameComponent)
 app.component('example-component', ExampleComponent);
 
