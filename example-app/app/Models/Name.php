@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Name extends Model
 {
@@ -35,17 +36,37 @@ class Name extends Model
         return $this->belongsTo(\App\Models\Persona::class);
     }
 
+    /**
+      * Instantiators 
+      */
     public static function firstName(string $name) : self
     {
         return new self([
-            'context' => static::LAST_NAME_CONTEXT, 'value' => $name
+            'context' => static::FIRST_NAME_CONTEXT, 'value' => $name
         ]);
     }
 
     public static function lastName(string $name) : self
     {
         return new self([
-            'context' => static::FIRST_NAME_CONTEXT, 'value' => $name
+            'context' => static::LAST_NAME_CONTEXT, 'value' => $name
         ]);
+    }
+
+    /**
+      * Accessors 
+      */
+    protected function isFirstName(): Attribute
+    {
+        return Attribute::make(
+            get: fn (mixed $value, array $attributes) => $attributes['context'] === static::FIRST_NAME_CONTEXT,
+        );
+    }
+
+    protected function isLastName(): Attribute
+    {
+        return Attribute::make(
+            get: fn (mixed $value, array $attributes) => $attributes['context'] === static::LAST_NAME_CONTEXT,
+        );
     }
 }
