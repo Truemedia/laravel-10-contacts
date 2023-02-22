@@ -3,9 +3,9 @@
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Database\Eloquent\Collection;
-use App\Models\Persona;
-use App\Http\Resources\PersonaCollection;
+use App\Models\{Contact, Name, Persona};
+use App\Http\Requests\PersonaRequest;
+use App\Http\Resources\{Persona as PersonaResource, PersonaCollection};
 
 class PersonaController extends Controller
 {
@@ -31,9 +31,24 @@ class PersonaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(PersonaRequest $request): PersonaResource
     {
-        return new Response;
+        $persona = Persona::make();
+
+        $contact = Contact::make( array_merge(
+            $request->only('email'),
+            ['phone' => $request->input('telephone')]
+        ));
+        $names = collect([
+            Name::firstName( $request->input('firstName') ),
+            Name::lastName( $request->input('lastName') )
+        ]);
+
+        $persona = Persona::create();
+        $persona->contact()->save($contact);
+        $persona->names()->saveMany($names);
+
+        return new PersonaResource($persona);
     }
 
     /**
