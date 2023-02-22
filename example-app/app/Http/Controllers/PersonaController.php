@@ -3,15 +3,21 @@
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Database\Eloquent\Collection;
+use App\Models\Persona;
+use App\Http\Resources\PersonaCollection;
 
 class PersonaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(): Response
+    public function index(): PersonaCollection
     {
-        return new Response;
+        // Persona::query()->delete();
+        return new PersonaCollection(
+            Persona::query()->with('contact', 'names')->get()
+        );
     }
 
     /**
