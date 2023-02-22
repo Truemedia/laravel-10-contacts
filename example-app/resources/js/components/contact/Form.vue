@@ -24,14 +24,15 @@
             }
         },
         methods: {
-            onSubmit(values) {
-                this.createPersona(values)
+            onSubmit(values, {resetForm}) {
+                this.createPersona(values, resetForm)
             },
-            async createPersona(values) {
+            async createPersona(values, resetForm) {
                 let res = await axios.post('personas', values)
                 if (res.status === StatusCodes.CREATED) {
                     let {data} = res
                     contactRepo.save(data.data)
+                    resetForm()
                 }
             }
         }
