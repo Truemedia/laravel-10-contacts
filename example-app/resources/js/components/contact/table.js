@@ -7,10 +7,16 @@ import axios from 'axios'
     const PAGINATION = {
         perPage: 2
     }
+    const DEFAULT_LOADING_STRATEGY = 'initial'
 
     export default {
-        mounted() {
-            this.upstreamAll()
+        props: {
+            loadingStrategy: {type: String, default: DEFAULT_LOADING_STRATEGY}
+        },
+        created() {
+            if (this.loadingStrategy === 'initial') {
+                this.upstreamAll()
+            }
         },
         data() {
             return {
