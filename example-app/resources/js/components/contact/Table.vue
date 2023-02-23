@@ -24,20 +24,33 @@
             <tr>
                 <td>
                     <ul>
+                        <!-- First -->
+                        <li v-if="!isFirstPage">
+                            <span @click="goto(firstPageNumber)">First</span>
+                        </li>
+                        <!-- Previous -->
                         <li v-if="!isFirstPage">
                             <span @click="prevPage()">Prev</span>
                         </li>
+                        <!-- Page Numbers -->
                         <li v-for="pageNumber in pageNumbers" :key="pageNumber">
                             <span @click="goto(pageNumber)">{{ pageNumber }}</span>
                         </li>
+                        <!-- Next -->
                         <li v-if="!isLastPage">
                             <span @click="nextPage()">Next</span>
+                        </li>
+                        <!-- Last -->
+                        <li v-if="!isLastPage">
+                            <span @click="goto(lastPageNumber)">Last</span>
                         </li>
                     </ul>
                 </td>
             </tr>
             <tr>
-                <td>Results count: {{ totalResults }}</td>
+                <td>
+                    Showing {{ startOfResults }} to {{ endOfResults }} of {{ totalResults }}
+                </td>
             </tr>
         </tfoot>
     </table>

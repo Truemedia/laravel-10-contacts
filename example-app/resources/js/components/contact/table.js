@@ -28,7 +28,8 @@ import axios from 'axios'
                 }
             },
             pageIndexByNumber(number) {
-                return this.pageNumbers.findIndex(pageNumber => pageNumber === number)
+                let {pageNumbers} = this
+                return pageNumbers.findIndex(pageNumber => pageNumber === number)
             },
             offsetByPageNumber(pageNumber) {
                 return this.pageIndexByNumber(pageNumber) * this.limit
@@ -63,6 +64,12 @@ import axios from 'axios'
             list() {
                 return this.query.all()
             },
+            startOfResults() {
+                return this.offset + 1
+            },
+            endOfResults() {
+                return this.isLastPage ? this.totalResults : (this.offset + this.limit)
+            },
             totalResults() {
                 return this.list.length
             },
@@ -74,15 +81,16 @@ import axios from 'axios'
                 return totalResults < limit ? 1 : Math.ceil(totalResults / limit);
             },
             firstPageNumber() {
-                let {pageNumbers} = this
-                return pageNumbers.shift()
+                let [firstPageNumber] = this.pageNumbers
+                return firstPageNumber
             },
             lastPageNumber() {
                 let {pageNumbers} = this
-                return pageNumbers.pop()
+                return pageNumbers[pageNumbers.length - 1]
             },
             pageNumbers() {
-                let pageIndexes = Array.from( Array(this.totalPages).keys() )
+                let {totalPages} = this
+                let pageIndexes = Array.from( Array(totalPages).keys() )
                 pageIndexes.push(pageIndexes.length)
                 pageIndexes.shift()
                 return pageIndexes
