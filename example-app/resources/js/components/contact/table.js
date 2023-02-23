@@ -38,6 +38,16 @@ import axios from 'axios'
             },
             goto(pageNumber) {
                 this.pagination.pageNumber = pageNumber
+            },
+            prevPage() {
+                if (!this.isFirstPage) {
+                    this.pagination.pageNumber--
+                }
+            },
+            nextPage() {
+                if (!this.isLastPage) {
+                    this.pagination.pageNumber++
+                }
             }
         },
         computed: {
@@ -63,11 +73,25 @@ import axios from 'axios'
                 let {totalResults, limit} = this
                 return totalResults < limit ? 1 : Math.ceil(totalResults / limit);
             },
+            firstPageNumber() {
+                let {pageNumbers} = this
+                return pageNumbers.shift()
+            },
+            lastPageNumber() {
+                let {pageNumbers} = this
+                return pageNumbers.pop()
+            },
             pageNumbers() {
                 let pageIndexes = Array.from( Array(this.totalPages).keys() )
                 pageIndexes.push(pageIndexes.length)
                 pageIndexes.shift()
                 return pageIndexes
+            },
+            isFirstPage() {
+                return this.pagination.pageNumber === this.firstPageNumber
+            },
+            isLastPage() {
+                return this.pagination.pageNumber === this.lastPageNumber
             }
         }
     }

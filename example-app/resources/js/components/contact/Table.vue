@@ -24,8 +24,14 @@
             <tr>
                 <td>
                     <ul>
+                        <li v-if="!isFirstPage">
+                            <span @click="prevPage()">Prev</span>
+                        </li>
                         <li v-for="pageNumber in pageNumbers" :key="pageNumber">
                             <span @click="goto(pageNumber)">{{ pageNumber }}</span>
+                        </li>
+                        <li v-if="!isLastPage">
+                            <span @click="nextPage()">Next</span>
                         </li>
                     </ul>
                 </td>
